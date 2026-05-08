@@ -2,7 +2,7 @@
 FROM node:23-alpine AS frontend-builder
 WORKDIR /app/frontend
 COPY frontend/package.json frontend/package-lock.json* ./
-RUN npm install
+RUN npm config set registry https://registry.npmmirror.com && npm install
 COPY frontend/ ./
 RUN npm run build
 
@@ -10,7 +10,7 @@ RUN npm run build
 FROM golang:1.26-alpine AS backend-builder
 WORKDIR /app/backend
 COPY backend/go.mod backend/go.sum ./
-RUN go mod download
+RUN go env -w GOPROXY=https://goproxy.cn,direct && go mod download
 COPY backend/ ./
 RUN CGO_ENABLED=0 go build -o lifesphere-server .
 
