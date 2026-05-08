@@ -4,6 +4,8 @@ import (
 	"lifesphere-backend/config"
 	"lifesphere-backend/database"
 	"lifesphere-backend/routes"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
