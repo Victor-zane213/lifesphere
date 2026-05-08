@@ -8,7 +8,7 @@ RUN npm run build
 
 # 阶段2：构建后端
 FROM golang:1.26-alpine AS backend-builder
-RUN apk --no-cache add gcc musl-dev
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && apk --no-cache add gcc musl-dev
 WORKDIR /app/backend
 COPY backend/go.mod backend/go.sum ./
 RUN go env -w GOPROXY=https://goproxy.cn,direct && go mod download
@@ -17,7 +17,7 @@ RUN CGO_ENABLED=1 go build -o lifesphere-server .
 
 # 阶段3：运行
 FROM alpine:3.19
-RUN apk --no-cache add ca-certificates tzdata
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && apk --no-cache add ca-certificates tzdata
 WORKDIR /app
 COPY --from=backend-builder /app/backend/lifesphere-server .
 COPY --from=frontend-builder /app/frontend/dist ./public
