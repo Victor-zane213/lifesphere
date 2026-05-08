@@ -8,11 +8,12 @@ RUN npm run build
 
 # 阶段2：构建后端
 FROM golang:1.26-alpine AS backend-builder
+RUN apk --no-cache add gcc musl-dev
 WORKDIR /app/backend
 COPY backend/go.mod backend/go.sum ./
 RUN go env -w GOPROXY=https://goproxy.cn,direct && go mod download
 COPY backend/ ./
-RUN CGO_ENABLED=0 go build -o lifesphere-server .
+RUN CGO_ENABLED=1 go build -o lifesphere-server .
 
 # 阶段3：运行
 FROM alpine:3.19
