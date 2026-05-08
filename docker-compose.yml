@@ -1,0 +1,9 @@
+services:
+  lifesphere:
+    build: .
+    container_name: lifesphere
+    ports:
+      - "80:8080"
+    volumes:
+      - ./data:/data
+    restart: unless-stopped

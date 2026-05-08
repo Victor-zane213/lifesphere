@@ -1,0 +1,8 @@
+node_modules
+npm-debug.log
+.git
+*.md
+data
+backend/lifesphere-server
+backend/lifesphere.db
+dist
