@@ -13,5 +13,10 @@ func main() {
 	database.Migrate()
 
 	r := routes.Setup()
+	r.Static("/assets", "./public/assets")
+	r.StaticFile("/", "./public/index.html")
+	r.NoRoute(func(c *gin.Context) {
+		c.File("./public/index.html")
+	})
 	r.Run(":" + cfg.Port)
 }
